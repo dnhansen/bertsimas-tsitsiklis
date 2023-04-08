@@ -1,0 +1,271 @@
+% Document setup
+\documentclass[article, a4paper, 11pt, oneside]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[UKenglish]{babel}
+
+% Document info
+\newcommand\doctitle{Bertsimas, Tsitsiklis: \emph{Introduction to Linear Optimization}}
+\newcommand\docauthor{Danny Nygård Hansen}
+
+% Formatting and layout
+\usepackage[autostyle]{csquotes}
+\renewcommand{\mktextelp}{(\textellipsis\unkern)}
+\usepackage[final]{microtype}
+\usepackage{xcolor}
+\frenchspacing
+\usepackage{latex-sty/articlepagestyle}
+\usepackage{latex-sty/articlesectionstyle}
+
+% Fonts
+\usepackage{amssymb}
+\usepackage[largesmallcaps,partialup]{kpfonts}
+\DeclareSymbolFontAlphabet{\mathrm}{operators} % https://tex.stackexchange.com/questions/40874/kpfonts-siunitx-and-math-alphabets
+\linespread{1.06}
+% \let\mathfrak\undefined
+% \usepackage{eufrak}
+\DeclareMathAlphabet\mathfrak{U}{euf}{m}{n}
+\SetMathAlphabet\mathfrak{bold}{U}{euf}{b}{n}
+% https://tex.stackexchange.com/questions/13815/kpfonts-with-eufrak
+\usepackage{inconsolata}
+
+% Hyperlinks
+\usepackage{hyperref}
+\definecolor{linkcolor}{HTML}{4f4fa3}
+\hypersetup{%
+	pdftitle=\doctitle,
+	pdfauthor=\docauthor,
+	colorlinks,
+	linkcolor=linkcolor,
+	citecolor=linkcolor,
+	urlcolor=linkcolor,
+	bookmarksnumbered=true
+}
+
+% Equation numbering
+\numberwithin{equation}{chapter}
+
+% Footnotes
+\footmarkstyle{\textsuperscript{#1}\hspace{0.25em}}
+
+% Mathematics
+\usepackage{latex-sty/basicmathcommands}
+\usepackage{latex-sty/framedtheorems}
+\usepackage{latex-sty/topologycommands}
+\usepackage{tikz-cd}
+\tikzcdset{arrow style=math font} % https://tex.stackexchange.com/questions/300352/equalities-look-broken-with-tikz-cd-and-math-font
+\usetikzlibrary{babel}
+
+% Lists
+\usepackage{enumitem}
+\setenumerate[0]{label=\normalfont(\alph*)}
+
+% Bibliography
+\usepackage[backend=biber, style=authoryear, maxcitenames=2, useprefix]{biblatex}
+\addbibresource{references.bib}
+
+% Title
+\title{\doctitle}
+\author{\docauthor}
+
+
+%% Framed exercise environment
+
+\mdfdefinestyle{swannexercise}{%
+    skipabove=0.5em plus 0.4em minus 0.2em,
+	skipbelow=0.5em plus 0.4em minus 0.2em,
+	leftmargin=-5pt,
+	rightmargin=-5pt,
+	innerleftmargin=5pt,
+	innerrightmargin=5pt,
+	innertopmargin=5pt,
+	innerbottommargin=4pt,
+	linewidth=0pt,
+	splittopskip=1.2em minus 0.2em,
+	splitbottomskip=0.5em plus 0.2em minus 0.1em,
+	backgroundcolor=backgroundcolor,
+	frametitlebackgroundcolor=titlecolor,
+	frametitlefont={\scshape},
+    theoremseparator={},
+    % theoremspace={},
+	frametitleaboveskip=3pt,
+	frametitlebelowskip=2pt
+}
+
+\mdtheorem[style=swannexercise]{exerciseframed}{Exercise}
+
+\let\oldexerciseframed\exerciseframed
+\renewcommand{\exerciseframed}{%
+  \crefalias{theorem}{exerciseframed}%
+  \oldexerciseframed}
+
+\usepackage{listofitems}
+
+\settocdepth{subsection}
+\renewenvironment{exerciseframed}[1][]{%
+    \setsepchar{.}%
+    \readlist*\mylist{#1}%
+    \def\smalllabel{\mylist[2].\mylist[3]}%
+    \refstepcounter{exerciseframed}%
+    % \addcontentsline{toc}{subsection}{Exercise \smalllabel}%
+    \begin{exerciseframed*}[#1]%
+    \label{ex:#1}%
+}{%
+    \end{exerciseframed*}%
+}
+
+% https://tex.stackexchange.com/a/23491/63353
+\newcommand{\RNum}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
+
+\newcommand{\exref}[1]{%
+    % \setsepchar{.}%
+    % \readlist*\mylist{#1}%
+    % \ifnum \arabic{chapter}=\mylist[1]
+    %     \def\mylabel{\mylist[2].\mylist[3]}%
+    % \else
+    %     \def\mylabel{\RNum{\mylist[1]}.\mylist[2].\mylist[3]}%
+    % \fi
+    \hyperref[ex:#1]{Exercise~#1}%
+}
+
+
+\mdtheorem[style=swannexercise]{problemframed}{Problem}
+
+\let\oldproblemframed\problemframed
+\renewcommand{\problemframed}{%
+  \crefalias{theorem}{problemframed}%
+  \oldproblemframed}
+
+\renewenvironment{problemframed}[1][]{%
+    \setsepchar{.}%
+    \readlist*\mylist{#1}%
+    \def\smalllabel{\mylist[2].\mylist[3]}%
+    \refstepcounter{problemframed}%
+    % \addcontentsline{toc}{subsection}{Exercise \smalllabel}%
+    \begin{problemframed*}[#1]%
+    \label{prob:#1}%
+}{%
+    \end{problemframed*}%
+}
+
+\newcommand{\probref}[1]{%
+    % \setsepchar{.}%
+    % \readlist*\mylist{#1}%
+    % \ifnum \arabic{chapter}=\mylist[1]
+    %     \def\mylabel{\mylist[2].\mylist[3]}%
+    % \else
+    %     \def\mylabel{\RNum{\mylist[1]}.\mylist[2].\mylist[3]}%
+    % \fi
+    \hyperref[prob:#1]{Problem~#1}%
+}
+
+
+\theoremstyle{nonumberplain}
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{solution}{Solution}
+
+\let\oldsolution\solution
+\renewcommand{\solution}{%
+  \crefalias{theorem}{solution}%
+  \oldsolution}
+
+\newcommand{\solutionlabelfont}[1]{{\normalfont\color{linkcolor}#1}}
+\newlist{solutionsec}{enumerate}{1}
+\setlist[solutionsec]{leftmargin=0pt, parsep=0pt, listparindent=\parindent, font=\solutionlabelfont, label=(\alph*), labelsep=0pt, labelwidth=20pt, itemindent=20pt, align=left, itemsep=10pt}
+
+\newenvironment{displaytheorem}{%
+	\begin{displayquote}\itshape%
+}{%
+	\end{displayquote}%
+}
+
+
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\calO}{\mathcal{O}}
+\newcommand{\bbF}{\mathbb{F}}
+
+% TODO move to .sty?
+\renewcommand{\disunion}{\sqcup}
+
+\let\oldcoprod\coprod
+\renewcommand{\coprod}{\sqcup}
+\newcommand{\bigcoprod}{\oldcoprod}
+
+
+\begin{document}
+
+\maketitle
+
+\addtocounter{chapter}{1}
+\chapter{The geometry of linear programming}
+
+\newcommand{\keyword}[1]{{\bfseries \textit{#1}}}
+\newcommand{\mat}{\vec}
+
+\begin{exerciseframed}[2.5]
+    (Extreme points of isomorphic polyhedra) A mapping $f$ is called \keyword{affine} if it is of the form $f(\vec{x}) = \mat{A}\vec{x} + \vec{b}$, where $\mat{A}$ is a matrix and $\vec{b}$ is a vector. Let $P$ and $Q$ be polyhedra in $\reals^n$ and $\reals^m$, respectively. We say that $P$ and $Q$ are \keyword{isomorphic} if there exist affine mappings $f \colon P \to Q$ and $g \colon Q \to P$ such that $g(f(\vec{x})) = \vec{x}$ for all $\vec{x} \in P$, and $f(g(\vec{y})) = \vec{y}$ for all $\vec{y} \in Q$. (Intuitively, isomorphic polyhedra have the same shape.)
+    %
+    \begin{enumerate}
+        \item If $P$ and $Q$ are isomorphic, show that there exists a one-to-one correspondence between their extreme points. In particular, if $f$ and $g$ are as above, show that $\vec{x}$ is an extreme point of $P$ if and only if $f(\vec{x})$ is an extreme point of $Q$.
+        
+        \item (Introducing slack variables leads to an isomorphic polyhedron) Let $P = \set{\vec{x} \in \reals^n}{\mat{A}\vec{x} \geq \vec{b}, \vec{x} \geq \vec{0}}$, where $\mat{A}$ is a matrix of dimensions $k \times n$. Let $Q = \set{(\vec{x},\vec{z}) \in \reals^{n+k}}{\mat{A}\vec{x}-\vec{z} = \vec{b}, \vec{x} \geq \vec{0}, \vec{x} \geq \vec{0}}$. Show that $P$ and $Q$ are isomorphic.
+    \end{enumerate}
+\end{exerciseframed}
+
+\begin{solution}
+\begin{solutionsec}
+    \item For $\vec{x}, \vec{y}, \vec{z} \in P$ with $\vec{x} = \lambda \vec{y} + (1-\lambda) \vec{z}$, then since $f$ is affine we have $f(\vec{x}) = \lambda f(\vec{y}) + (1-\lambda) f(\vec{z})$. Hence if $\vec{x}$ is \emph{not} an extreme point, then neither is $f(\vec{x})$. Since $f$ is bijective with an affine inverse, this proves the claim.
+
+    \item Simply note that the map $f \colon P \to Q$ given by $f(\vec{x}) = (\vec{x}, \mat{A}\vec{x} - \vec{b})$ is an isomorphism.
+\end{solutionsec}
+\end{solution}
+
+
+\begin{exerciseframed}[2.7]
+    Suppose that $\set{\vec{x} \in \reals^n}{\vec{a}_i' \vec{x} \geq b_i, i = 1, \ldots, m}$ and $\set{\vec{x} \in \reals^n}{\vec{g}_i' \vec{x} \geq h_i, i = 1, \ldots, k}$ are representations of the same nonempty polyhedron $P$. Suppose that the vectors $\vec{a}_1, \ldots, \vec{a}_m$ span $\reals^n$. Show that the same must be true for the vectors $\vec{g}_1, \ldots, \vec{g}_k$.
+\end{exerciseframed}
+
+\begin{solution}
+    If $\vec{a}_1, \ldots, \vec{a}_m$ span $\reals^n$, then they must contain a collection of $n$ linearly independent vectors. Then Theorem~2.6 implies that $P$ has an extreme point. But this is a geometric property, so it does not depend on the representation. The same theorem then implies that the collection $\vec{g}_1, \ldots, \vec{g}_k$ contains $n$ linearly independent vectors. But then they span $\reals^n$.
+\end{solution}
+
+
+\begin{exerciseframed}[2.12]
+    Consider a nonempty polyhedron $P$ and suppose that for each variable $x_i$ we have either the constraint $x_i \geq 0$ or the contraint $x_i \geq 0$. Is it true that $P$ has at least one basic feasible solution?
+\end{exerciseframed}
+
+\begin{solution}
+    Let $I$ be the set of indices $i$ such that we have the contraint $x_i \leq 0$, and let $\mat{A}$ be a diagonal matrix with a $1$ as the $i$th entry on the diagonal if $i \not\in I$, and $-1$ if $i \in I$. The map $\vec{x} \mapsto \mat{A}\vec{x}$ is then an isomorphism between $P$ and the polyhedron $Q$ which is defined by the same contraints as $P$, except that the contraints on the form $x_i \leq 0$ are replaced by contraints $x_i \geq 0$. In particular, $P$ and $Q$ have the same extreme points by [TODO ref] Exercise 2.4, hence the same basic feasible solutions by Theorem~2.3.
+
+    Next introduce slack variables to $Q$, yielding a polyhedron $R$ in standard form, which is isomorphic to $Q$ by [TODO ref] Exercise~2.5. But since $R$ is nonempty (since it is isomorphic to $P$) it has a basic feasible solution by Corollary~2.2.
+\end{solution}
+
+
+TODO 2.14, 2.15
+
+
+\begin{exerciseframed}[2.22]
+    Let $P$ and $Q$ be polyhedra in $\reals^n$.
+    %
+    \begin{enumerate}
+        \item Show that $P + Q$ is a polyhedron.
+
+        \item Show that every extreme point of $P + Q$ is the sum of an extreme point of $P$ and an extreme point of $Q$.
+    \end{enumerate}
+\end{exerciseframed}
+
+\begin{solution}
+\begin{solutionsec}
+    \item The Cartesian product $P \times Q$ is clearly a polyhedron. Its image under the linear map $(\vec{x}, \vec{y}) \mapsto \vec{x} + \vec{y}$ is exactly $P + Q$, and this is a polyhedron by Corollary~2.5.
+
+    \item Let $\vec{z} \in P + Q$ and write $\vec{z} = \vec{x} + \vec{y}$ for $\vec{x} \in P$ and $\vec{y} \in Q$. Assume that $\vec{x}$ is not an extreme point in $P$, so that there exist $\vec{x}_1, \vec{x}_2 \in P \setminus \{\vec{x}\}$ and a $\lambda \in [0,1]$ such that $\vec{x} = \lambda \vec{x}_1 + (1-\lambda) \vec{x}_2$. Letting $\vec{z}_i \defn \vec{x}_i + \vec{y}$ we easily find that $\vec{z} = \lambda \vec{z}_1 + (1-\lambda) \vec{z}_2$, so $\vec{z}$ is not an extreme point.
+\end{solutionsec}
+\end{solution}
+
+
+\end{document}
