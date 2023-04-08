@@ -249,6 +249,49 @@
 TODO 2.14, 2.15
 
 
+\begin{exerciseframed}[2.21]
+    Suppose that Fourier--Motzkin elimination is used in the manner described at the end of Section~2.8 to find the optimal cost in a linear programming problem. Show how this approach can be augmented to obtain an optimal solution as well.
+\end{exerciseframed}
+
+\begin{solution}
+    Let $P \subseteq \reals^n$ be a polyhedron, and assume that we wish to minimise the quantity $\vec{c}'\vec{x}$ subject to $\vec{x} \in P$. Define
+    %
+    \begin{equation*}
+        P_n
+            = \set{(x_0, \vec{x}) \in \reals^{n+1}}{x_0 = \vec{c}'\vec{x} \text{ and } \vec{x} \in P},
+    \end{equation*}
+    %
+    which is clearly a polyhedron in $\reals^{n+1}$. To minimise $\vec{c}'\vec{x}$ with $\vec{x} \in P$ we thus find the minimal value of $x_0$ among elements $(x_0, \vec{x}) \in P_n$. Letting $P_{n-k} = \Pi_k(P_n)$ for $k=1, \ldots, n$ we have $Q \defn P_0 = \Pi_n(P_n) = \set{x_0 \in \reals}{\exists \vec{x} \in P \colon (x_0,\vec{x}) \in P_n}$, so this is equivalent to finding the minimum of $Q$. Given the minimum of $Q$ we wish to find a (not necessarily unique) $\vec{x} \in P$ such that $(\min Q, \vec{x}) \in P_n$.
+
+    We do this by recursively finding a suitable value for the variable we eliminate in each step of the algorithm. In the notation of the Elimination algorithm on page 72, let $P \subseteq \reals^n$ be a polyhedron, and let $Q = \Pi_{n-1}(P)$ be the polyhedron obtained when eliminating the variable $x_n$. Let $\overline{\vec{x}}$ be an element of $Q$, i.e. a vector satisfying the inequalities
+    %
+    \begin{alignat*}{2}
+        d_j + \vec{f}_j' \overline{\vec{x}}
+            &\geq d_i + \vec{f}_i' \overline{\vec{x}}, \qquad
+            && \text{if $a_{in} > 0$ and $a_{jn} < 0$,} \\
+        0
+            &\geq d_k + \vec{f}_k' \overline{\vec{x}}, \qquad
+            && \text{if $a_{kn} = 0$,}
+    \end{alignat*}
+    %
+    for $i,j,k = 1, \ldots, n$. Now choose any $x_n \in \reals$ that lies in all the intervals $[d_i + \vec{f}_i' \overline{\vec{x}}, d_j + \vec{f}_j' \overline{\vec{x}}]$. Then the vector $(\overline{\vec{x}}, x_n)$ satisfies the inequalities
+    %
+    \begin{alignat*}{2}
+        x_n
+            &\geq d_i + \vec{f}_i' \overline{\vec{x}}, \qquad
+            && \text{if $a_{in} > 0$,} \\
+        d_j + \vec{f}_j' \overline{\vec{x}}
+            &\geq x_n, \qquad
+            && \text{if $a_{jn} < 0$,} \\
+        0
+            &\geq d_k + \vec{f}_k' \overline{\vec{x}}, \qquad
+            && \text{if $a_{kn} = 0$.}
+    \end{alignat*}
+    %
+    Such an $x_n$ exists since these inequalities are a representation of $P$, and the former inequalities are a representation of $Q$, which is the projection of $P$ by Theorem~2.10. Thus $(\overline{\vec{x}}, x_n) \in P$ as desired.
+\end{solution}
+
+
 \begin{exerciseframed}[2.22]
     Let $P$ and $Q$ be polyhedra in $\reals^n$.
     %
