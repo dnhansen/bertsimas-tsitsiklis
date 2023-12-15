@@ -210,6 +210,50 @@
 \newcommand{\mat}{\vec}
 
 
+\begin{remark}
+    Let $f \colon \reals^n \to \reals^m$ be a map. Then the following properties are equivalent:
+    %
+    \begin{enumerate}
+        \item There exists a matrix $\mat{A}$ and a vector $\vec{b}$ such that $f(\vec{x}) = \mat{A}\vec{x} + \vec{b}$ for all $\vec{x} \in \reals^n$.
+        \item For all $\vec{x},\vec{y} \in \reals^n$ and $t \in \reals$, $f((1-t)\vec{x} + t\vec{y}) = (1-t)f(\vec{x}) + tf(\vec{y})$.
+    \end{enumerate}
+    %
+    Such a function is called \emph{affine}. The first property clearly entails the second, so assume that $f$ has the second property. First assume that $f(\vec{0}) = \vec{0}$. For $\beta \in \reals$ and $\vec{x} \in \reals^n$ be thus have
+    %
+    \begin{equation*}
+        f(\beta \vec{x})
+            = f(\beta \vec{x} + (1-\beta)\vec{0})
+            = \beta f(\vec{x}) + (1-\beta)f(\vec{0})
+            = \beta f(\vec{x}),
+    \end{equation*}
+    %
+    so $f$ is homogeneous. If also $\vec{y} \in \reals^n$, then
+    %
+    \begin{equation*}
+        \tfrac{1}{2} f(\vec{x} + \vec{y})
+            = f \bigl( \tfrac{1}{2} \vec{x} + \tfrac{1}{2} \vec{y} \bigr)
+            = \tfrac{1}{2} f(\vec{x}) + \tfrac{1}{2} f(\vec{y}),
+    \end{equation*}
+    %
+    so $f$ is also additive, hence linear. For general $f$, simply replace $f$ with $f - f(\vec{0})$.
+\end{remark}
+
+
+\begin{remark}
+    If $f \colon \reals^n \to \reals^n$ preserves the Euclidean metric, then it is affine. Replacing $f$ with $f - f(\vec{0})$ we may assume that $f(\vec{0}) = \vec{0}$, and so that $f$ also preserves the inner product. For all $\vec{x},\vec{y},\vec{z} \in \reals^n$ and $\beta \in \reals$ we have
+    %
+    \begin{align*}
+        \inner{f(\beta\vec{x} + \vec{y})}{f(\vec{z})}
+            &= \inner{\beta\vec{x} + \vec{y}}{\vec{z}} \\
+            &= \beta \inner{\vec{x}}{\vec{z}} + \inner{\vec{y}}{\vec{z}} \\
+            &= \beta \inner{f(\vec{x})}{f(\vec{z})} + \inner{f(\vec{y})}{f(\vec{z})} \\
+            &= \inner{\beta f(\vec{x}) + f(\vec{y})}{f(\vec{z})}.
+    \end{align*}
+    %
+    Since $f$ is surjective, the claim follows.
+\end{remark}
+
+
 \begin{remarkbreak}[Adjacent basic solutions and adjacent bases]
     Let $P = \set{\vec{x} \in \reals^n}{\mat{A}\vec{x} = \vec{b}, \vec{x} \geq \vec{0}}$ be a polyhedron in standard form.
     %
