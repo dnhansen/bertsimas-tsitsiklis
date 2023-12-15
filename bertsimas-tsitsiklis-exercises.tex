@@ -13,9 +13,10 @@
 \renewcommand{\mktextelp}{(\textellipsis\unkern)}
 \usepackage[final]{microtype}
 \usepackage{xcolor}
+\definecolor{chaptercolor}{HTML}{6b6bb3}
 \frenchspacing
-\usepackage{latex-sty/articlepagestyle}
-\usepackage{latex-sty/articlesectionstyle}
+\usepackage{latex-sty/sfarticlepagestyle}
+\usepackage{latex-sty/sfarticlesectionstyle}
 
 % Fonts
 \usepackage{amssymb}
@@ -51,6 +52,7 @@
 % Mathematics
 \usepackage{latex-sty/basicmathcommands}
 \usepackage{latex-sty/framedtheorems}
+\usepackage{latex-sty/theoremrefs}
 \usepackage{latex-sty/topologycommands}
 \usepackage{tikz-cd}
 \tikzcdset{arrow style=math font} % https://tex.stackexchange.com/questions/300352/equalities-look-broken-with-tikz-cd-and-math-font
@@ -206,6 +208,24 @@
 
 \newcommand{\keyword}[1]{{\bfseries \textit{#1}}}
 \newcommand{\mat}{\vec}
+
+
+\begin{remarkbreak}[Adjacent basic solutions and adjacent bases]
+    Let $P = \set{\vec{x} \in \reals^n}{\mat{A}\vec{x} = \vec{b}, \vec{x} \geq \vec{0}}$ be a polyhedron in standard form.
+    %
+    \begin{displaytheorem}
+        If $\vec{x}$ and $\vec{y}$ are adjacent basic solutions, then they can be obtained from two adjacent bases.
+    \end{displaytheorem}
+    %
+    Assume that $x_i = 0$ for $i \neq B(1), \ldots, B(m)$. Each of the $m$ equality constraints are active at both $\vec{x}$ and $\vec{y}$, so there must be exactly one $k$ such that $y_{B(k)} \neq 0$. Then $\vec{x}$ can be obtained from the basis with basic indices $\{B(1), \ldots, B(m)\}$ and $\vec{y}$ from a basis with basic indices $\{B(1), \ldots, B(k-1), j, B(k+1), \ldots, B(m)\}$ where $j \neq B(k)$. Hence these two bases are adjacent as claimed.
+
+    \begin{displaytheorem}
+        If two adjacent bases lead to distinct basic solutions $\vec{x}$ and $\vec{y}$, then these are adjacent.
+    \end{displaytheorem}
+    %
+    Similarly, there are (at least) $n-1$ constraints that are active at both $\vec{x}$ and $\vec{y}$ (the equality constraints along with all but one of the constraints given by the $B(k)$). Since $\vec{x} \neq \vec{y}$ there must be some $k$ such that $x_{B(k)} = 0$ and $y_{B(k)} \neq 0$, so there are exactly $n-1$ constraints that are active at both $\vec{x}$ and $\vec{y}$.
+\end{remarkbreak}
+
 
 \begin{exerciseframed}[2.5]
     (Extreme points of isomorphic polyhedra) A mapping $f$ is called \keyword{affine} if it is of the form $f(\vec{x}) = \mat{A}\vec{x} + \vec{b}$, where $\mat{A}$ is a matrix and $\vec{b}$ is a vector. Let $P$ and $Q$ be polyhedra in $\reals^n$ and $\reals^m$, respectively. We say that $P$ and $Q$ are \keyword{isomorphic} if there exist affine mappings $f \colon P \to Q$ and $g \colon Q \to P$ such that $g(f(\vec{x})) = \vec{x}$ for all $\vec{x} \in P$, and $f(g(\vec{y})) = \vec{y}$ for all $\vec{y} \in Q$. (Intuitively, isomorphic polyhedra have the same shape.)
